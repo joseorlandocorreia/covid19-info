@@ -18,6 +18,7 @@ function generateMap() {
         }
     ).addTo(mymap);
     //TODO: generate proportional circles and apply them to the map
+    
 }
 
 async function fetchTotalCases() {
