@@ -23,7 +23,7 @@ class RouteComponent extends React.Component {
                         <NavLink
                             key={index}
                             style={navLinkStyle}
-                            to={"/" + element.props.name}
+                            to={"/" + this.props.name}
                         >
                             {element}
                         </NavLink>

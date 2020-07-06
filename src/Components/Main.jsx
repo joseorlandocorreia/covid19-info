@@ -1,7 +1,7 @@
 import React from "react";
 import { HashRouter } from "react-router-dom";
 import Country from "./Country.jsx";
-import { fetchTotalCases } from "../Api.js";
+import { generateMap, fetchTotalCases } from "../Api.js";
 import Chart from "./Chart.jsx";
 import Navbar from "./Navbar.jsx";
 import RouteComponent from "./RouteComponent.jsx";
@@ -21,9 +21,9 @@ class Main extends React.Component {
             cases: "Loading ...",
             deaths: "Loading ...",
             recovered: "Loading ...",
-            casesByCountry: [],
-            deathsByCountry: [],
-            recoveredByCountry: [],
+            casesByCountry: ["Loading ..."],
+            deathsByCountry: ["Loading ..."],
+            recoveredByCountry: ["Loading ..."],
             countries: [
                 {
                     country: "Loading ...",
@@ -36,6 +36,7 @@ class Main extends React.Component {
     }
 
     async componentDidMount() {
+        generateMap();
         const { cases, deaths, recovered } = await fetchTotalCases();
         this.setState({
             cases,
