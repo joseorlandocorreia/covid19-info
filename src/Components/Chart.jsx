@@ -52,7 +52,7 @@ class chart extends PureComponent {
                 }}
             >
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="date" />
+                <XAxis dataKey="Date" />
                 <YAxis />
                 <Tooltip />
                 <Legend />
