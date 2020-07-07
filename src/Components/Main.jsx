@@ -1,15 +1,15 @@
 import React from "react";
 import { HashRouter } from "react-router-dom";
 import {
-    generateMap,
     fetchTotalCases,
     getCasesByCountryList,
     getDeathsByCountryList,
     getRecoveredByCountryList,
 } from "../Api.js";
+
 import Chart from "./Chart.jsx";
 import Navbar from "./Navbar.jsx";
-import RouteComponent from "./RouteComponent.jsx";
+import Stats from "./Stats.jsx";
 
 class Main extends React.Component {
     constructor(props) {
@@ -34,7 +34,6 @@ class Main extends React.Component {
     }
 
     async componentDidMount() {
-        generateMap();
         const { cases, deaths, recovered } = await fetchTotalCases();
         this.setState({
             cases,
@@ -42,17 +41,11 @@ class Main extends React.Component {
             recovered,
         });
 
-/*         const countriesCasesList = await getCasesByCountryList();
-        const countriesDeathsList = await getDeathsByCountryList();
-        const countriesRecoveredList = await getRecoveredByCountryList();
- */
         this.setState({
             casesByCountry: await getCasesByCountryList(),
             deathsByCountry: await getDeathsByCountryList(),
             recoveredByCountry: await getRecoveredByCountryList(),
         });
-/*         console.log("this.state.casesByCountry")
-        console.log(this.state.casesByCountry) */
     }
 
     render() {
@@ -61,20 +54,23 @@ class Main extends React.Component {
                 <div className="content">
                     <div className="left">
                         <Navbar />
-                        <RouteComponent
+                        <Stats
                             path={["/cases", "/"]}
                             data={this.state.casesByCountry}
                             cases={this.state.cases}
+                            color={"blue"}
                         />
-                        <RouteComponent
+                        <Stats
                             path={"/deaths"}
                             data={this.state.deathsByCountry}
                             cases={this.state.deaths}
+                            color={"red"}
                         />
-                        <RouteComponent
+                        <Stats
                             path={"/recovered"}
                             data={this.state.recoveredByCountry}
                             cases={this.state.recovered}
+                            color={"green"}
                         />
                     </div>
                     <div className="right">

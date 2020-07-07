@@ -13,8 +13,9 @@ const deathsStatsUrl =
 const recoveredStatsUrl =
     "https://disease.sh/v2/countries?yesterday=true&sort=recovered&allowNull=false";
 
-function generateMap() {
-    const mymap = L.map("mapid").setView([38.736946, -9.142685], 3);
+function generateMap(color) {
+    try {
+        const mymap = L.map("mapid").setView([38.736946, -9.142685], 3);
     L.tileLayer(
         "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}",
         {
@@ -28,7 +29,15 @@ function generateMap() {
                 "pk.eyJ1Ijoib3JsYW5kb2NvcnJlaWEiLCJhIjoiY2tiYzgwYzB5MDhxMzJ6bXAxY2c4dXRyaSJ9.o4D9aIQw7DkYW8BSMbfKqQ",
         }
     ).addTo(mymap);
-    //TODO: generate proportional circles and apply them to the map
+    var circle = L.circle([51.508, -0.11], {
+        color: color,
+        fillColor: color,
+        fillOpacity: 0.5,
+        radius: 50000,
+    }).addTo(mymap);
+    } catch (error) {
+        console.log(error.message)
+    }
 }
 
 async function fetchTotalCases() {

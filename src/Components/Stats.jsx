@@ -1,6 +1,14 @@
 import React from "react";
 import { Route, NavLink } from "react-router-dom";
 
+import {
+    generateMap,
+    fetchTotalCases,
+    getCasesByCountryList,
+    getDeathsByCountryList,
+    getRecoveredByCountryList,
+} from "../Api.js";
+
 const style = {
     backgroundColor: "lightgrey",
     padding: "16px",
@@ -11,8 +19,13 @@ const navLinkStyle = {
     color: "black",
 };
 
-class RouteComponent extends React.Component {
+class Stats extends React.Component {
+
+    componentDidMount() {
+/*         generateMap(this.props.color) */
+    }
     render() {
+        generateMap(this.props.color)
         return (
             <div>
                 <Route exact path={this.props.path}>
@@ -34,4 +47,4 @@ class RouteComponent extends React.Component {
     }
 }
 
-export default RouteComponent;
+export default Stats;
