@@ -1,6 +1,17 @@
+import React from "react";
 import L from "leaflet";
+import Country from "./Components/Country.jsx";
 
 const totalCasesURL = "https://disease.sh/v2/all?yesterday=true&allowNull=true";
+
+const casesStatsUrl =
+    "https://disease.sh/v2/countries?yesterday=true&sort=cases&allowNull=false";
+
+const deathsStatsUrl =
+    "https://disease.sh/v2/countries?yesterday=true&sort=deaths&allowNull=false";
+
+const recoveredStatsUrl =
+    "https://disease.sh/v2/countries?yesterday=true&sort=recovered&allowNull=false";
 
 function generateMap() {
     const mymap = L.map("mapid").setView([38.736946, -9.142685], 3);
@@ -18,7 +29,6 @@ function generateMap() {
         }
     ).addTo(mymap);
     //TODO: generate proportional circles and apply them to the map
-    
 }
 
 async function fetchTotalCases() {
@@ -34,4 +44,58 @@ async function fetchTotalCases() {
     return results;
 }
 
-export { generateMap, fetchTotalCases };
+async function getCasesByCountryList() {
+    let componentList = [];
+    const data = await (await fetch(casesStatsUrl)).json();
+    data.map((element) => {
+        componentList.push([
+            <Country
+                flag={element.countryInfo.flag}
+                name={element.country}
+                value={element.cases}
+            />,
+            "country/" + element.country,
+        ]);
+    });
+    return componentList;
+}
+
+async function getDeathsByCountryList() {
+    let componentList = [];
+    const data = await (await fetch(deathsStatsUrl)).json();
+    data.map((element) => {
+        componentList.push([
+            <Country
+                flag={element.countryInfo.flag}
+                name={element.country}
+                value={element.deaths}
+            />,
+            "country/" + element.country,
+        ]);
+    });
+    return componentList;
+}
+
+async function getRecoveredByCountryList() {
+    let componentList = [];
+    const data = await (await fetch(recoveredStatsUrl)).json();
+    data.map((element) => {
+        componentList.push([
+            <Country
+                flag={element.countryInfo.flag}
+                name={element.country}
+                value={element.recovered}
+            />,
+            "country/" + element.country,
+        ]);
+    });
+    return componentList;
+}
+
+export {
+    generateMap,
+    fetchTotalCases,
+    getCasesByCountryList,
+    getDeathsByCountryList,
+    getRecoveredByCountryList,
+};

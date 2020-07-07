@@ -12,7 +12,7 @@ const navLinkStyle = {
 };
 
 class RouteComponent extends React.Component {
-    render(props) {
+    render() {
         return (
             <div>
                 <Route exact path={this.props.path}>
@@ -23,9 +23,9 @@ class RouteComponent extends React.Component {
                         <NavLink
                             key={index}
                             style={navLinkStyle}
-                            to={"/" + this.props.name}
+                            to={"/" + element[1]}
                         >
-                            {element}
+                            {element[0]}
                         </NavLink>
                     ))}
                 </Route>

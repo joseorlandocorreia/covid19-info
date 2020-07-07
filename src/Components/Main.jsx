@@ -1,18 +1,15 @@
 import React from "react";
 import { HashRouter } from "react-router-dom";
-import Country from "./Country.jsx";
-import { generateMap, fetchTotalCases } from "../Api.js";
+import {
+    generateMap,
+    fetchTotalCases,
+    getCasesByCountryList,
+    getDeathsByCountryList,
+    getRecoveredByCountryList,
+} from "../Api.js";
 import Chart from "./Chart.jsx";
 import Navbar from "./Navbar.jsx";
 import RouteComponent from "./RouteComponent.jsx";
-
-
-const casesStatsUrl =
-    "https://disease.sh/v2/countries?yesterday=true&sort=cases&allowNull=false";
-const deathsStatsUrl =
-    "https://disease.sh/v2/countries?yesterday=true&sort=deaths&allowNull=false";
-const recoveredStatsUrl =
-    "https://disease.sh/v2/countries?yesterday=true&sort=recovered&allowNull=false";
 
 class Main extends React.Component {
     constructor(props) {
@@ -24,6 +21,7 @@ class Main extends React.Component {
             casesByCountry: ["Loading ..."],
             deathsByCountry: ["Loading ..."],
             recoveredByCountry: ["Loading ..."],
+            /* Not used ... yet */
             countries: [
                 {
                     country: "Loading ...",
@@ -44,35 +42,17 @@ class Main extends React.Component {
             recovered,
         });
 
-        const countriesCasesData = await (await fetch(casesStatsUrl)).json();
-        const countriesDeathsData = await (await fetch(deathsStatsUrl)).json();
-        const countriesRecoveredData = await (
-            await fetch(recoveredStatsUrl)
-        ).json();
-
+/*         const countriesCasesList = await getCasesByCountryList();
+        const countriesDeathsList = await getDeathsByCountryList();
+        const countriesRecoveredList = await getRecoveredByCountryList();
+ */
         this.setState({
-            casesByCountry: countriesCasesData.map((element) => (
-                <Country
-                    flag={element.countryInfo.flag}
-                    name={element.country}
-                    value={element.cases}
-                />
-            )),
-            deathsByCountry: countriesDeathsData.map((element) => (
-                <Country
-                    flag={element.countryInfo.flag}
-                    name={element.country}
-                    value={element.deaths}
-                />
-            )),
-            recoveredByCountry: countriesRecoveredData.map((element) => (
-                <Country
-                    flag={element.countryInfo.flag}
-                    name={element.country}
-                    value={element.recovered}
-                />
-            )),
+            casesByCountry: await getCasesByCountryList(),
+            deathsByCountry: await getDeathsByCountryList(),
+            recoveredByCountry: await getRecoveredByCountryList(),
         });
+/*         console.log("this.state.casesByCountry")
+        console.log(this.state.casesByCountry) */
     }
 
     render() {
